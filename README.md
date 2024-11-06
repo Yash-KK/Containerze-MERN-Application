@@ -6,31 +6,104 @@ Read and view details of existing employees.
 Update employee information.
 Delete employee records.
 
+
+This application includes:
+
+- **Backend**: Node.js + Express server to handle API requests.
+- **Frontend**: React client for a user-friendly interface.
+- **Database**: MongoDB for data storage.
+
 ## Prerequisites
 
-1. **Node.js & npm**: Ensure that you have Node.js and npm installed. You can download and install them from [Node.js official website](https://nodejs.org/).
-2. **MongoDB**: Make sure MongoDB is installed and running on your local machine or accessible remotely.
+Before running the application, ensure you have:
 
-## Project Structure
+1. **Docker**: Installed to containerize the application.
+2. **Docker Network**: A Docker network named `mern` to enable communication between the frontend, backend, and database containers.
 
-The project is organized into two main directories:
+To create the Docker network:
+```bash
+docker network create mern
+```
 
-- **`server`**: Contains the backend code (Node.js + Express).
-- **`client`**: Contains the frontend code (React).
+## Docker Setup
+### Step 1: Build the Docker Images
+#### **Backend Dockerfile (backend/Dockerfile):**
+```bash
+FROM node:16.13.2-alpine
 
-## Running the Application Locally
+WORKDIR /app
 
-### Step 1: Start the Backend Server
+COPY package.json .
+RUN npm install
+COPY . .
 
-1. Open a terminal and navigate to the server directory:
-   ```bash
-   cd mern/server
-  
-2. Install the necessary dependencies:
+EXPOSE 5050
+CMD [ "npm", "run", "start" ]
+```
+
+#### **Frontend Dockerfile (frontend/Dockerfile):**
+```bash
+FROM node:16.13.2-alpine
+
+WORKDIR /app
+
+COPY package.json .
+RUN npm install
+COPY . .
+
+EXPOSE 5173
+CMD [ "npm", "run", "dev" ]
+
+```
+**To build the images, navigate to each component's directory and run:**
 
 ```bash
-npm install
+docker build -t <username>/mern-frontend:v1 ./frontend
+docker build -t <username>/backend:v1 ./backend
 ```
+
+### Step 2: Run the Containers
+After building the images, run the containers with the following commands:
+
+**Frontend**
+```bash
+docker run --name frontend -d -p 5173:5173 --network mern yashkharche/mern-frontend:v1
+```
+
+**Backend**
+```bash
+docker run --name backend -d -p 5050:5050 --network mern yashkharche/backend:v1
+```
+
+
+**MongoDB**
+```bash
+docker run -d --network mern -p 27017:27017 -v mern-db:/data/db --name mongodb mongo
+```
+
+### Step 3: Access the Application
+
+With all containers running, the application will be accessible at:
+
+- **Frontend**: [http://localhost:5173](http://localhost:5173)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 3. Start the server:
 
