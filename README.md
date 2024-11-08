@@ -67,12 +67,12 @@ After building the images, run the containers with the following commands:
 
 **Frontend**
 ```bash
-docker run --name frontend -d -p 5173:5173 --network mern yashkharche/mern-frontend:v1
+docker run --name frontend -d -p 5173:5173 --network mern <username>/mern-frontend:v1
 ```
 
 **Backend**
 ```bash
-docker run --name backend -d -p 5050:5050 --network mern yashkharche/backend:v1
+docker run --name backend -d -p 5050:5050 --network mern <username>/backend:v1
 ```
 
 
@@ -84,49 +84,4 @@ docker run -d --network mern -p 27017:27017 -v mern-db:/data/db --name mongodb m
 ### Step 3: Access the Application
 
 With all containers running, the application will be accessible at:
-
-- **Frontend**: [http://localhost:5173](http://localhost:5173)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-3. Start the server:
-
-```bash
-npm run start
-```
-
-### Step 2: Start the Frontend Server
-
-1. Open a terminal and navigate to the client directory:
-   ```bash
-   cd mern/client
-  
-2. Install the necessary dependencies:
-
-```bash
-npm install
-```
-
-3. Start the development:
-
-```bash
-npm run dev
-```
-
-With both the backend and frontend running, your application should now be fully functional. Visit http://localhost:5173 in your browser to view the app
+[http://localhost:5173](http://localhost:5173)
