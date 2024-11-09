@@ -15,118 +15,23 @@ This application includes:
 
 ## Prerequisites
 
-Before running the application, ensure you have:
+Before running the application, ensure you have **Docker** and **Docker Compose** installed.
 
-1. **Docker**: Installed to containerize the application.
-2. **Docker Network**: A Docker network named `mern` to enable communication between the frontend, backend, and database containers.
+### Step 1: Clone the Repository
 
-To create the Docker network:
-```bash
-docker network create mern
-```
-
-## Docker Setup
-### Step 1: Build the Docker Images
 #### **Backend Dockerfile (backend/Dockerfile):**
 ```bash
-FROM node:16.13.2-alpine
+git https://github.com/Yash-KK/Containerze-MERN-Application.git
+cd Containerze-MERN-Application
 
-WORKDIR /app
-
-COPY package.json .
-RUN npm install
-COPY . .
-
-EXPOSE 5050
-CMD [ "npm", "run", "start" ]
 ```
-
-#### **Frontend Dockerfile (frontend/Dockerfile):**
+### Step 2: Run the Application
+Start all services (frontend, backend, and MongoDB) using Docker Compose:
 ```bash
-FROM node:16.13.2-alpine
-
-WORKDIR /app
-
-COPY package.json .
-RUN npm install
-COPY . .
-
-EXPOSE 5173
-CMD [ "npm", "run", "dev" ]
-
+docker-compose up -d
 ```
-**To build the images, navigate to each component's directory and run:**
 
+### Step 3: Stop the Application
 ```bash
-docker build -t <username>/mern-frontend:v1 ./frontend
-docker build -t <username>/backend:v1 ./backend
+docker-compose down
 ```
-
-### Step 2: Run the Containers
-After building the images, run the containers with the following commands:
-
-**Frontend**
-```bash
-docker run --name frontend -d -p 5173:5173 --network mern yashkharche/mern-frontend:v1
-```
-
-**Backend**
-```bash
-docker run --name backend -d -p 5050:5050 --network mern yashkharche/backend:v1
-```
-
-
-**MongoDB**
-```bash
-docker run -d --network mern -p 27017:27017 -v mern-db:/data/db --name mongodb mongo
-```
-
-### Step 3: Access the Application
-
-With all containers running, the application will be accessible at:
-
-- **Frontend**: [http://localhost:5173](http://localhost:5173)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-3. Start the server:
-
-```bash
-npm run start
-```
-
-### Step 2: Start the Frontend Server
-
-1. Open a terminal and navigate to the client directory:
-   ```bash
-   cd mern/client
-  
-2. Install the necessary dependencies:
-
-```bash
-npm install
-```
-
-3. Start the development:
-
-```bash
-npm run dev
-```
-
-With both the backend and frontend running, your application should now be fully functional. Visit http://localhost:5173 in your browser to view the app
